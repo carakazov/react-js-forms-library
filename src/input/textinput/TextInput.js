@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {Fragment, useState} from "react";
 import {useContext, useEffect} from "react";
 import {Context} from "../context/Context";
 
@@ -33,9 +33,9 @@ export default function TextInput(props) {
     }
 
     return (
-        <div>
+        <Fragment>
             <input type={type} placeholder={placeholder} style={style} onClick={e => e.stopPropagation()} onChange={e => setValue(e.currentTarget.value)} />
             {errors}
-        </div>
+        </Fragment>
     )
 }

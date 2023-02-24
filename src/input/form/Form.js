@@ -1,7 +1,9 @@
 import {useEffect, useState} from "react";
 import {Context} from "../context/Context";
+import FormException from "../exception/FormException";
 
 export default function Form(props) {
+    const {errorStyle} = props
     const [startValidation, setStartValidation] = useState(false)
     const [validationProcess, setValidationProcess] = useState(true)
     const [values, setValues] = useState({})
@@ -9,6 +11,8 @@ export default function Form(props) {
     const [inputFieldsNumber, setInputFieldsNumber] = useState()
     const [isValidationEnded, setIsValidationEnded] = useState(false)
     const [currentFunctionName, setCurrentFunctionName] = useState("")
+    const [formProcessingFailed, setFormProcessingFailed] = useState(false)
+    const [formProcessingExceptionMessage, setFormProcessingExceptionMessage] = useState("")
 
     let counter = 0
     let valuedProxy = {}
@@ -16,7 +20,14 @@ export default function Form(props) {
 
     useEffect(() => {
         if(isValidationEnded && validationProcess) {
-            functions[currentFunctionName](values)
+            try {
+                functions[currentFunctionName](values)
+            } catch (exception) {
+                if(exception instanceof FormException) {
+                    setFormProcessingFailed(true)
+                    setFormProcessingExceptionMessage(exception.getMessage())
+                }
+            }
             setIsValidationEnded(false)
             valuedProxy = {}
         } else {
@@ -58,9 +69,19 @@ export default function Form(props) {
         }
     }
 
+    function getExceptionMessage() {
+        return(
+            <div style={errorStyle}>
+                {formProcessingExceptionMessage}
+            </div>
+        )
+    }
+
+    const exceptionMessage = formProcessingFailed && getExceptionMessage()
 
     return(
         <Context.Provider value={{setInputFieldsNumber, addValidationResult, startValidation, addValue, addFunction}}>
+            {exceptionMessage}
             <form onClick={e => onClickHandler(e)}>
                 {props.children}
             </form>

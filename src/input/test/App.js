@@ -2,6 +2,9 @@ import Button from "../button/Button";
 import Form from "../form/Form";
 import TextInput from "../textinput/TextInput";
 import Fields from "../fields/Fields";
+import FormException from "../exception/FormException";
+import Field from "../field/Field";
+import Label from "../label/Label";
 
 export default function App() {
     const errorMessageStyle = {
@@ -21,7 +24,7 @@ export default function App() {
     }
 
     const minValidationObject = {
-        errorMessage: 'Message to short',
+        errorMessage: 'Message too short',
         errorStyle: errorMessageStyle,
         validate(value) {
             return minLengthValidation(value)
@@ -29,11 +32,16 @@ export default function App() {
     }
 
     const maxValidationObject = {
-        errorMessage: 'Message to long',
+        errorMessage: 'Message too long',
         errorStyle: errorMessageStyle,
         validate(value) {
             return maxLengthValidation(value)
         }
+    }
+
+    const errorStyle = {
+        border: 'red solid 1px',
+        color: 'red'
     }
 
     function buttonFunc(params, test='test') {
@@ -41,14 +49,23 @@ export default function App() {
     }
 
     return(
-        <Form>
+        <Form errorStyle={errorStyle}>
             <Fields>
-                <TextInput type={'text'} placeholder={'First input placeholder'}   name={'firstInput'} validations={[minValidationObject, maxValidationObject]}/>
-                <TextInput type={'text'} placeholder={'Second input placeholder'}  name={'secondInput'} validations={[minValidationObject, maxValidationObject]}/>
-                <TextInput type={'text'} placeholder={'Second input placeholder'}  name={'thirdInput'} validations={[minValidationObject, maxValidationObject]}/>
+                <Field>
+                    <Label text={'First label:'}/>
+                    <TextInput type={'text'} placeholder={'First input placeholder'}   name={'firstInput'} validations={[minValidationObject, maxValidationObject]}/>
+                </Field>
+                <Field>
+                    <Label text={'Second label:'}/>
+                    <TextInput type={'text'} placeholder={'Second input placeholder'}  name={'secondInput'} validations={[minValidationObject, maxValidationObject]}/>
+                </Field>
+                <Field>
+                    <Label text={'Third label:'}/>
+                    <TextInput type={'text'} placeholder={'Third input placeholder'}  name={'thirdInput'} validations={[minValidationObject, maxValidationObject]}/>
+                </Field>
             </Fields>
             <Button text={'Test'} buttonFunc={buttonFunc} name={'submitButton'}/>
-            <Button text={'Another function button'} buttonFunc={() => alert('Another button')} name={'anotherButton'}/>
+            <Button text={'Another function button'} buttonFunc={() => {throw new FormException("Test exception message")}} name={'anotherButton'}/>
         </Form>
     )
 }
