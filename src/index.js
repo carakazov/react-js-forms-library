@@ -1,15 +1,14 @@
 import React, {useRef} from 'react';
 import ReactDOM from 'react-dom/client';
-import Parent from "./input/test/Parent";
-import Child from "./input/test/Child";
 import App from "./input/test/App";
+import Test from "./input/test/Test";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
 root.render(
   <React.StrictMode>
-    <App/>
+      <App></App>
   </React.StrictMode>
 );
 
