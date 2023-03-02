@@ -10,7 +10,7 @@ export default function App() {
     const errorMessageStyle = {
         color: 'red',
         fontSize: '10px',
-        textAlign: 'left'
+        textAlign: 'left',
     }
 
     function minLengthValidation(value) {
@@ -44,6 +44,13 @@ export default function App() {
         color: 'red'
     }
 
+    const buttonStyle = {
+        backgroundColor: 'red',
+        active: {
+
+        }
+    }
+
     function buttonFunc(params, test='test') {
         console.log(`First input = ${params.firstInput}, second input = ${params.secondInput}, third input = ${params.thirdInput}. test = ${test}`)
     }
@@ -64,7 +71,7 @@ export default function App() {
                     <TextInput type={'text'} placeholder={'Third input placeholder'}  name={'thirdInput'} validations={[minValidationObject, maxValidationObject]}/>
                 </Field>
             </Fields>
-            <Button text={'Test'} buttonFunc={buttonFunc} name={'submitButton'}/>
+            <Button text={'Test'} buttonFunc={buttonFunc} name={'submitButton'} style={buttonStyle}/>
             <Button text={'Another function button'} buttonFunc={() => {throw new FormException("Test exception message")}} name={'anotherButton'}/>
         </Form>
     )

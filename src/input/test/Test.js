@@ -1,32 +1,33 @@
 import {useState} from "react";
+import {createUseStyles} from "react-jss";
+import InnerTest from "./InnerTest";
 
 export default function Test() {
-    const [obj, setObj] = useState({})
 
-    function addFirst() {
-        let newObj = {
-            ...obj,
-            first: 'test'
+    const [css, setCss] = useState('/first.css')
+
+    function change() {
+        if(css === '/first.css') {
+            setCss('/second.css')
+        } else {
+            setCss('/first.css')
         }
-
-        setObj(newObj)
     }
 
-    function addSecond() {
-        let newObj = {
-            ...obj,
-            second: 'test'
+    const style = {
+        backgroundColor: 'red',
+        '&:active': {
+            backgroundColor: 'black'
         }
-
-        setObj(newObj)
     }
+
 
     return(
         <div>
-            <button type={'button'} onClick={addFirst}>Add first</button>
-            <button type={'button'} onClick={addSecond}>Add second</button>
-            <p>{obj.first}</p>
-            <p>{obj.second}</p>
+            <div className={'block'}>
+                CSS Test
+            </div>
+            <InnerTest style={style}/>
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import {Fragment, useState} from "react";
 import {useContext, useEffect} from "react";
 import {Context} from "../context/Context";
+import createStyle from "../stylecreator/stylecretor";
 
 export default function TextInput(props) {
     const {type, validations, placeholder, style, name} = props
@@ -29,12 +30,12 @@ export default function TextInput(props) {
     }, [startValidation])
 
     function getErrorParagraph(errorMessage, errorStyle) {
-        return <p style={errorStyle}>{errorMessage}</p>
+        return <p style={createStyle(errorStyle).element}>{errorMessage}</p>
     }
 
     return (
         <Fragment>
-            <input type={type} placeholder={placeholder} style={style} onClick={e => e.stopPropagation()} onChange={e => setValue(e.currentTarget.value)} />
+            <input type={type} placeholder={placeholder} style={createStyle(style).element} onClick={e => e.stopPropagation()} onChange={e => setValue(e.currentTarget.value)} />
             {errors}
         </Fragment>
     )
