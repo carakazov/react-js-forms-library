@@ -5,6 +5,7 @@ import Fields from "../fields/Fields";
 import FormException from "../exception/FormException";
 import Field from "../field/Field";
 import Label from "../label/Label";
+import createStyle from "../stylecreator/stylecretor";
 
 export default function App() {
     const errorMessageStyle = {
@@ -56,7 +57,7 @@ export default function App() {
     }
 
     return(
-        <Form errorStyle={errorStyle}>
+        <Form errorStyle={createStyle(errorStyle).element}>
             <Fields>
                 <Field>
                     <Label text={'First label:'}/>
