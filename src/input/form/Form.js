@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import {Context} from "../context/Context";
 import FormException from "../exception/FormException";
+import createStyle from "../stylecreator/stylecretor";
 
 export default function Form(props) {
-    const {errorStyle} = props
+    const {errorStyle, style} = props
     const [startValidation, setStartValidation] = useState(false)
     const [validationProcess, setValidationProcess] = useState(true)
     const [values, setValues] = useState({})
@@ -71,7 +72,7 @@ export default function Form(props) {
 
     function getExceptionMessage() {
         return(
-            <div style={errorStyle}>
+            <div style={createStyle(errorStyle).element}>
                 {formProcessingExceptionMessage}
             </div>
         )
@@ -82,7 +83,7 @@ export default function Form(props) {
     return(
         <Context.Provider value={{setInputFieldsNumber, addValidationResult, startValidation, addValue, addFunction}}>
             {exceptionMessage}
-            <form onClick={e => onClickHandler(e)}>
+            <form onClick={e => onClickHandler(e)} style={createStyle(style).element}>
                 {props.children}
             </form>
         </Context.Provider>
