@@ -6,12 +6,14 @@ export default function Fields(props) {
     const {setInputFieldsNumber} = useContext(Context)
     const {style} = props
 
+    const styleClasses = createStyle(style)
+
     useEffect(() => {
         setInputFieldsNumber(props.children.length)
     }, [])
 
     return(
-        <div style={createStyle(style).element}>
+        <div className={styleClasses().element}>
             {props.children}
         </div>
     )

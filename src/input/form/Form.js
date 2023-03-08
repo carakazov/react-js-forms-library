@@ -4,7 +4,7 @@ import FormException from "../exception/FormException";
 import createStyle from "../stylecreator/stylecretor";
 
 export default function Form(props) {
-    const {errorStyle, style} = props
+    const {errorStyle, style, divStyle} = props
     const [startValidation, setStartValidation] = useState(false)
     const [validationProcess, setValidationProcess] = useState(true)
     const [values, setValues] = useState({})
@@ -19,22 +19,29 @@ export default function Form(props) {
     let valuedProxy = {}
     let functionProxy = {}
 
+    const styleClasses = createStyle(style)
+    const errorStyleClass = createStyle(errorStyle)().element
+    const divStyleClass = createStyle(divStyle)().element
+
     useEffect(() => {
-        if(isValidationEnded && validationProcess) {
-            try {
-                functions[currentFunctionName](values)
-            } catch (exception) {
-                if(exception instanceof FormException) {
-                    setFormProcessingFailed(true)
-                    setFormProcessingExceptionMessage(exception.getMessage())
+            async function go() {
+                if(isValidationEnded && validationProcess) {
+                    try {
+                        await functions[currentFunctionName](values)
+                    } catch (exception) {
+                        if(exception instanceof FormException) {
+                            setFormProcessingFailed(true)
+                            setFormProcessingExceptionMessage(exception.getMessage())
+                        }
+                    }
+                    setIsValidationEnded(false)
+                    valuedProxy = {}
+                } else {
+                    setValidationProcess(true)
+                    setIsValidationEnded(false)
                 }
             }
-            setIsValidationEnded(false)
-            valuedProxy = {}
-        } else {
-            setValidationProcess(true)
-            setIsValidationEnded(false)
-        }
+            go()
     }, [isValidationEnded])
 
     function addFunction(name, func) {
@@ -72,7 +79,7 @@ export default function Form(props) {
 
     function getExceptionMessage() {
         return(
-            <div style={createStyle(errorStyle).element}>
+            <div className={errorStyleClass}>
                 {formProcessingExceptionMessage}
             </div>
         )
@@ -82,10 +89,12 @@ export default function Form(props) {
 
     return(
         <Context.Provider value={{setInputFieldsNumber, addValidationResult, startValidation, addValue, addFunction}}>
-            {exceptionMessage}
-            <form onClick={e => onClickHandler(e)} style={createStyle(style).element}>
-                {props.children}
-            </form>
+            <div className={divStyleClass}>
+                {exceptionMessage}
+                <form onClick={e => onClickHandler(e)} className={styleClasses().element}>
+                    {props.children}
+                </form>
+            </div>
         </Context.Provider>
     )
 }

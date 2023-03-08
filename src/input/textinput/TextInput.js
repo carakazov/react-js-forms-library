@@ -4,13 +4,14 @@ import {Context} from "../context/Context";
 import createStyle from "../stylecreator/stylecretor";
 
 export default function TextInput(props) {
-    const {type, validations, placeholder, style, name} = props
+    const {type, validations, placeholder, fieldStyle, blockStyle, name} = props
     const {addValidationResult, startValidation, addValue} = useContext(Context)
 
     const [value, setValue] = useState("")
     const [errors, setErrors] = useState([])
 
-
+    const styleClasses = createStyle(fieldStyle)
+    const divStyles = createStyle(blockStyle)
 
     useEffect(() => {
         if(startValidation) {
@@ -30,13 +31,13 @@ export default function TextInput(props) {
     }, [startValidation])
 
     function getErrorParagraph(errorMessage, errorStyle) {
-        return <p style={createStyle(errorStyle).element}>{errorMessage}</p>
+        return <p className={errorStyle}>{errorMessage}</p>
     }
 
     return (
-        <Fragment>
-            <input type={type} placeholder={placeholder} style={createStyle(style).element} onClick={e => e.stopPropagation()} onChange={e => setValue(e.currentTarget.value)} />
+        <div className={divStyles().element}>
+            <input type={type} placeholder={placeholder} className={styleClasses().element} onClick={e => e.stopPropagation()} onChange={e => setValue(e.currentTarget.value)} />
             {errors}
-        </Fragment>
+        </div>
     )
 }

@@ -3,8 +3,10 @@ import createStyle from "../stylecreator/stylecretor";
 export default function Field(props) {
     const {style} = props
 
+    const styleClasses = createStyle(style)
+
     return(
-        <div style={createStyle(style).element}>
+        <div className={styleClasses().element}>
             {props.children}
         </div>
     )

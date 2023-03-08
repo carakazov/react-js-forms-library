@@ -6,6 +6,8 @@ export default function Button(props) {
     const {text, buttonFunc, name, style} = props
     const {addFunction} = useContext(Context)
 
+    const styleClasses = createStyle(style)
+
     useEffect(() => {
         addFunction(name, buttonFunc)
     }, [])
@@ -18,6 +20,6 @@ export default function Button(props) {
     }
 
     return(
-        <button style={createStyle(style).element} onClick={e => func(e)} type={'button'}>{text}</button>
+        <button className={styleClasses().element} onClick={e => func(e)} type={'button'}>{text}</button>
     )
 }

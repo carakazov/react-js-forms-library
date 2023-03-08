@@ -1,79 +1,59 @@
-import Button from "../button/Button";
 import Form from "../form/Form";
-import TextInput from "../textinput/TextInput";
 import Fields from "../fields/Fields";
-import FormException from "../exception/FormException";
 import Field from "../field/Field";
 import Label from "../label/Label";
-import createStyle from "../stylecreator/stylecretor";
+import TextInput from "../textinput/TextInput";
+import Button from "../button/Button";
+import {createValidationObject} from "../fabricfunctions/fabricFunctions";
+import api from "./Api";
+import FormException from "../exception/FormException";
+import {
+    button,
+    errorFormStyle,
+    fieldsStyle,
+    fieldStyle,
+    formStyle, formWholeDivStyle,
+    inputDivStyle,
+    label,
+    textInput,
+    validationError
+} from "./styles";
 
 export default function App() {
-    const errorMessageStyle = {
-        color: 'red',
-        fontSize: '10px',
-        textAlign: 'left',
+
+    function notEmptyValidation(value) {
+        return value.length > 0
     }
 
-    function minLengthValidation(value) {
-        let result = value.length > 3
-        return result
+    function throwError() {
+        throw new FormException('Test throw')
     }
 
-    function maxLengthValidation(value) {
-        let result = value.length < 7
-        return result
+    async function callApiFunc(params) {
+        await api.login(params.login, params.password)
+            .then(result => console.log(result))
+            .catch(reject => {throw new FormException(reject)})
     }
 
-    const minValidationObject = {
-        errorMessage: 'Message too short',
-        errorStyle: errorMessageStyle,
-        validate(value) {
-            return minLengthValidation(value)
-        }
-    }
-
-    const maxValidationObject = {
-        errorMessage: 'Message too long',
-        errorStyle: errorMessageStyle,
-        validate(value) {
-            return maxLengthValidation(value)
-        }
-    }
-
-    const errorStyle = {
-        border: 'red solid 1px',
-        color: 'red'
-    }
-
-    const buttonStyle = {
-        backgroundColor: 'red',
-        active: {
-
-        }
-    }
-
-    function buttonFunc(params, test='test') {
-        console.log(`First input = ${params.firstInput}, second input = ${params.secondInput}, third input = ${params.thirdInput}. test = ${test}`)
-    }
+    const notEmptyValidationErrorMessage = 'Required field'
 
     return(
-        <Form errorStyle={createStyle(errorStyle).element}>
-            <Fields>
-                <Field>
-                    <Label text={'First label:'}/>
-                    <TextInput type={'text'} placeholder={'First input placeholder'}   name={'firstInput'} validations={[minValidationObject, maxValidationObject]}/>
+        <Form style={formStyle} errorStyle={errorFormStyle} divStyle={formWholeDivStyle}>
+            <Fields style={fieldsStyle}>
+                <Field style={fieldStyle}>
+                    <Label text={'Login:'} style={label}/>
+                    <TextInput name={'login'} placeholder={'example@mail.ru'} type={'text'} fieldStyle={textInput} blockStyle={inputDivStyle} validations={
+                        [createValidationObject(notEmptyValidationErrorMessage, validationError, notEmptyValidation)]
+                    }/>
                 </Field>
-                <Field>
-                    <Label text={'Second label:'}/>
-                    <TextInput type={'text'} placeholder={'Second input placeholder'}  name={'secondInput'} validations={[minValidationObject, maxValidationObject]}/>
-                </Field>
-                <Field>
-                    <Label text={'Third label:'}/>
-                    <TextInput type={'text'} placeholder={'Third input placeholder'}  name={'thirdInput'} validations={[minValidationObject, maxValidationObject]}/>
+                <Field style={fieldStyle}>
+                    <Label text={'Password:'} style={label}/>
+                    <TextInput name={'password'} placeholder={'qwerty'} type={'password'} fieldStyle={textInput} blockStyle={inputDivStyle} validations={
+                        [createValidationObject(notEmptyValidationErrorMessage, validationError, notEmptyValidation)]
+                    }/>
                 </Field>
             </Fields>
-            <Button text={'Test'} buttonFunc={buttonFunc} name={'submitButton'} style={buttonStyle}/>
-            <Button text={'Another function button'} buttonFunc={() => {throw new FormException("Test exception message")}} name={'anotherButton'}/>
+            <Button name={'loginButton'} text={'Log In'} buttonFunc={callApiFunc} style={button}/>
         </Form>
     )
 }

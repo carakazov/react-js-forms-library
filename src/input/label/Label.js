@@ -3,7 +3,9 @@ import createStyle from "../stylecreator/stylecretor";
 export default function Label(props) {
     const {text, style} = props
 
+    const styleClasses = createStyle(style)
+
     return(
-        <label style={createStyle(style).element}>{text}</label>
+        <label className={styleClasses().element}>{text}</label>
     )
 }

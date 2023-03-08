@@ -1,33 +1,21 @@
-import {useState} from "react";
-import {createUseStyles} from "react-jss";
-import InnerTest from "./InnerTest";
+import FormException from "../exception/FormException";
 
 export default function Test() {
 
-    const [css, setCss] = useState('/first.css')
-
-    function change() {
-        if(css === '/first.css') {
-            setCss('/second.css')
-        } else {
-            setCss('/first.css')
-        }
+    async function fail() {
+        return Promise.reject()
     }
 
-    const style = {
-        backgroundColor: 'red',
-        '&:active': {
-            backgroundColor: 'black'
+    async function test() {
+        try {
+            await fail().catch(() => {throw new FormException('test')})
+        } catch (exception) {
+            console.log(exception.getMessage())
         }
     }
 
 
     return(
-        <div>
-            <div className={'block'}>
-                CSS Test
-            </div>
-            <InnerTest style={style}/>
-        </div>
+        <button onClick={test}>test</button>
     )
 }
