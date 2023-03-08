@@ -8,7 +8,7 @@ import {createValidationObject} from "../fabricfunctions/fabricFunctions";
 import api from "./Api";
 import FormException from "../exception/FormException";
 import {
-    button,
+    button, buttonsBlockStyle,
     errorFormStyle,
     fieldsStyle,
     fieldStyle,
@@ -18,6 +18,8 @@ import {
     textInput,
     validationError
 } from "./styles";
+import Buttons from "../buttons/Buttons";
+import Decoration from "../decoration/Decoration";
 
 export default function App() {
 
@@ -53,7 +55,10 @@ export default function App() {
                     }/>
                 </Field>
             </Fields>
-            <Button name={'loginButton'} text={'Log In'} buttonFunc={callApiFunc} style={button}/>
+            <Buttons style={buttonsBlockStyle}>
+                <Button name={'loginButton'} text={'Log In'} buttonFunc={callApiFunc} style={button}/>
+                <Button name={'testThrowButton'} text={'Test throw'} buttonFunc={throwError} style={button}/>
+            </Buttons>
         </Form>
     )
 }
