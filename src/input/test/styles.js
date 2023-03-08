@@ -83,3 +83,9 @@ export const formWholeDivStyle = {
     flexDirection: 'column',
     marginTop: '10px'
 }
+
+export const buttonsBlockStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    columnGap: '5px'
+}
