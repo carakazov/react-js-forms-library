@@ -1,4 +1,4 @@
-import createStyle from "../stylecreator/stylecretor";
+import createStyle from "../../functions/stylecreator/stylecretor";
 
 export default function Field(props) {
     const {style} = props

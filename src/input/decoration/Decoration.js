@@ -1,4 +1,4 @@
-import createStyle from "../stylecreator/stylecretor";
+import createStyle from "../../functions/stylecreator/stylecretor";
 
 export default function Decoration(props) {
     const {style} = props

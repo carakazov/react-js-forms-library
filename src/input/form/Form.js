@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Context} from "../context/Context";
 import FormException from "../exception/FormException";
-import createStyle from "../stylecreator/stylecretor";
+import createStyle from "../../functions/stylecreator/stylecretor";
 
 export default function Form(props) {
     const {errorStyle, style, divStyle} = props
