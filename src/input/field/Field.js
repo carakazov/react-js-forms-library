@@ -1,6 +1,6 @@
 import createStyle from "../../functions/stylecreator/stylecretor";
 
-export default function Field(props) {
+export function Field(props) {
     const {style} = props
 
     const styleClasses = createStyle(style)

@@ -1,5 +1,5 @@
 
-export default class FormException extends Error {
+export class FormException extends Error {
     constructor(message) {
         super();
         this.message = message

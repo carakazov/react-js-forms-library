@@ -1,8 +1,8 @@
 import {useContext, useEffect, useState} from "react";
-import {Context} from "../context/Context";
+import {Context} from "../context";
 import createStyle from "../../functions/stylecreator/stylecretor";
 
-export default function Button(props) {
+export function Button(props) {
     const {text, buttonFunc, name, style} = props
     const {addFunction} = useContext(Context)
 

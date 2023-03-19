@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {Context} from "../context/Context";
-import FormException from "../exception/FormException";
+import {FormException} from "../exception/FormException";
 import createStyle from "../../functions/stylecreator/stylecretor";
 
-export default function Form(props) {
+export function Form(props) {
     const {errorStyle, style, divStyle} = props
     const [startValidation, setStartValidation] = useState(false)
     const [validationProcess, setValidationProcess] = useState(true)

@@ -1,6 +1,6 @@
 import createStyle from "../../functions/stylecreator/stylecretor";
 
-export default function Buttons(props) {
+export function Buttons(props) {
     const {style} = props
     const parentDivStyle = createStyle(style)
 

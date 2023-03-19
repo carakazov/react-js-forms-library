@@ -1,9 +1,9 @@
-import {Fragment, useState} from "react";
+import {useState} from "react";
 import {useContext, useEffect} from "react";
 import {Context} from "../context/Context";
 import createStyle from "../../functions/stylecreator/stylecretor";
 
-export default function TextInput(props) {
+export function TextInput(props) {
     const {type, validations, placeholder, fieldStyle, blockStyle, name} = props
     const {addValidationResult, startValidation, addValue} = useContext(Context)
 
@@ -18,7 +18,8 @@ export default function TextInput(props) {
             let errors = []
             for(let validation of validations) {
                 if(!validation.validate(value)) {
-                    errors.push(getErrorParagraph(validation.errorMessage, validation.errorStyle))
+                    let index = errors.length
+                    errors.push(getErrorParagraph(validation.errorMessage, validation.errorStyle, index))
                 }
             }
             setErrors(errors)
@@ -30,8 +31,8 @@ export default function TextInput(props) {
         }
     }, [startValidation])
 
-    function getErrorParagraph(errorMessage, errorStyle) {
-        return <p className={errorStyle}>{errorMessage}</p>
+    function getErrorParagraph(errorMessage, errorStyle, index) {
+        return <p key={index} className={errorStyle}>{errorMessage}</p>
     }
 
     return (
